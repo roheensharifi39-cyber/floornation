@@ -4,6 +4,7 @@ import { Expertise } from "@/components/home/Expertise";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { FeaturedServices } from "@/components/home/FeaturedServices";
 import { FurnitureFeature } from "@/components/home/FurnitureFeature";
+import { FurnitureQuickPath } from "@/components/home/FurnitureQuickPath";
 import { Hero } from "@/components/home/Hero";
 import { Process } from "@/components/home/Process";
 import { Testimonials } from "@/components/home/Testimonials";
@@ -19,10 +20,11 @@ export default function HomePage() {
     <main id="main-content">
       <Hero />
       <TrustStrip />
+      <FurnitureQuickPath />
       <Expertise />
+      <FurnitureFeature />
       <FeaturedServices />
       <FeaturedProjects />
-      <FurnitureFeature />
       <Process />
       <About />
       <Testimonials />

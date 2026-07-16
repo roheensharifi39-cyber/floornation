@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowDown, ArrowRight, MapPin } from "lucide-react";
-import { ConsultationTrigger } from "@/components/layout/ConsultationDrawer";
+import { motion } from "framer-motion";
+import { ArrowDown, ArrowRight, ImageUp, MapPin } from "lucide-react";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 export function Hero() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useHydratedReducedMotion();
   const ease = [0.22, 1, 0.36, 1] as const;
 
   return (
@@ -15,7 +15,7 @@ export function Hero() {
       <motion.div
         className="absolute inset-0"
         initial={false}
-        animate={reduceMotion ? { scale: 1 } : { scale: [1.025, 1] }}
+        animate={reduceMotion ? { scale: 1 } : { scale: [1.015, 1] }}
         transition={{ duration: reduceMotion ? 0 : 1.8, ease }}
       >
         <Image
@@ -37,9 +37,9 @@ export function Hero() {
             initial={false}
             animate={reduceMotion ? undefined : { opacity: [0.92, 1], y: [8, 0] }}
             transition={{ duration: 0.7, delay: 0.2, ease }}
-            className="mb-6 text-[0.72rem] font-bold uppercase tracking-[0.19em] text-white/78 sm:text-xs"
+            className="mb-6 text-sm font-bold text-white/82"
           >
-            Flooring <span className="px-1 text-bronze">•</span> Decking <span className="px-1 text-bronze">•</span> Custom Interiors
+            Flooring <span className="px-1.5 text-bronze-light">•</span> Decking <span className="px-1.5 text-bronze-light">•</span> Custom Furniture
           </motion.p>
           <motion.h1
             initial={false}
@@ -47,9 +47,9 @@ export function Hero() {
             transition={{ duration: 0.95, delay: 0.28, ease }}
             className="max-w-4xl font-display text-[clamp(3.35rem,8.2vw,6rem)] leading-[0.94] tracking-[-0.035em] text-white"
           >
-            Surfaces and Spaces,
+            Flooring, Decking &amp;
             <br />
-            <span className="text-bronze">Made Exceptional.</span>
+            <span className="text-bronze-light">Custom Furniture.</span>
           </motion.h1>
           <motion.p
             initial={false}
@@ -57,7 +57,9 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.48, ease }}
             className="mt-7 max-w-2xl text-base leading-7 text-white/78 sm:text-lg sm:leading-8"
           >
-            Premium flooring, decking, outdoor structures, and custom furniture solutions for residential and commercial spaces across the UAE.
+            Planning furniture? Start with a photo, screenshot, sketch, or rough
+            idea. We also supply and install premium flooring, decking, and
+            outdoor structures across the UAE.
           </motion.p>
           <motion.div
             initial={false}
@@ -66,15 +68,19 @@ export function Hero() {
             className="mt-9 flex flex-col gap-3 sm:flex-row"
           >
             <Link
-              href="/projects"
-              className="link-arrow inline-flex min-h-13 items-center justify-center gap-3 bg-bronze px-6 py-3.5 font-bold text-white transition-colors hover:bg-bronze-dark"
+              href="/custom-furniture#quick-start"
+              className="link-arrow inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-bronze px-6 py-4 font-bold text-white shadow-[0_4px_8px_oklch(0.16_0.02_45/0.18)] transition-colors hover:bg-bronze-dark"
             >
-              Explore Our Work
+              <ImageUp className="size-5" aria-hidden="true" />
+              Custom Furniture Inquiry
+            </Link>
+            <Link
+              href="/services"
+              className="link-arrow inline-flex min-h-14 items-center justify-center gap-3 rounded-xl border border-white/55 px-6 py-4 font-bold text-white transition-colors hover:border-white hover:bg-white/10"
+            >
+              Explore Flooring &amp; Decking
               <ArrowRight className="size-5" aria-hidden="true" />
             </Link>
-            <ConsultationTrigger className="inline-flex min-h-13 items-center justify-center border border-white/45 px-6 py-3.5 font-bold text-white transition-colors hover:border-white hover:bg-white/10">
-              Request a Consultation
-            </ConsultationTrigger>
           </motion.div>
         </div>
 

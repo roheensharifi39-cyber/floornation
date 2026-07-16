@@ -1,11 +1,12 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
 import type { Project } from "@/data/projects";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 const cardLayouts = [
   "lg:col-span-7",
@@ -31,7 +32,7 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useHydratedReducedMotion();
   const layoutClass = cardLayouts[index % cardLayouts.length];
   const imageRatio = imageRatios[index % imageRatios.length];
 

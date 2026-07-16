@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { Check } from "lucide-react";
-import type { DirectionOption, IconOption } from "./options";
+import type { DirectionOption, IconOption } from "@/data/furniture";
 
 interface IconSelectionGridProps {
-  options: IconOption[];
+  options: readonly IconOption[];
   selected: string[];
   onSelect: (label: string) => void;
   multiple?: boolean;
@@ -32,8 +32,9 @@ export function IconSelectionGrid({
             key={option.label}
             type="button"
             aria-pressed={isSelected}
+            aria-label={`${option.label}. ${option.description}`}
             onClick={() => onSelect(option.label)}
-            className={`focus-ring group relative min-h-32 rounded-xl border p-4 text-left transition-colors duration-200 ${
+            className={`focus-ring group relative min-h-32 rounded-2xl border p-5 text-left transition-colors duration-200 ${
               isSelected
                 ? "border-ink bg-ink text-white"
                 : "border-line bg-canvas text-ink hover:border-bronze"
@@ -75,7 +76,7 @@ export function IconSelectionGrid({
 }
 
 interface DirectionGridProps {
-  options: DirectionOption[];
+  options: readonly DirectionOption[];
   selected: string;
   onSelect: (label: string) => void;
 }
@@ -99,8 +100,9 @@ export function DirectionGrid({
             key={option.label}
             type="button"
             aria-pressed={isSelected}
+            aria-label={`${option.label}. ${option.description}`}
             onClick={() => onSelect(option.label)}
-            className={`focus-ring group overflow-hidden rounded-xl border text-left transition-colors duration-200 ${
+            className={`focus-ring group overflow-hidden rounded-2xl border text-left transition-colors duration-200 ${
               isSelected
                 ? "border-bronze bg-surface"
                 : "border-line bg-canvas hover:border-bronze"

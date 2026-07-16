@@ -14,6 +14,7 @@ export type ProjectSector = Extract<
   ProjectCategory,
   "Residential" | "Commercial"
 >;
+export type ProjectServiceCategory = Exclude<ProjectCategory, ProjectSector>;
 
 export type ProjectImage = {
   readonly src: string;
@@ -41,8 +42,10 @@ export type Project = {
   readonly slug: string;
   readonly title: string;
   readonly location: string;
+  readonly projectType: string;
   readonly category: ProjectSector;
   readonly categories: readonly ProjectCategory[];
+  readonly serviceCategories: readonly ProjectServiceCategory[];
   readonly material: string;
   readonly completionYear: string;
   readonly coverImage: string;
@@ -56,7 +59,7 @@ export type Project = {
   readonly materials: readonly ProjectMaterial[];
   readonly gallery: readonly ProjectImage[];
   readonly facts: readonly ProjectFact[];
-  readonly relatedService: RelatedService;
+  readonly relatedServices: readonly RelatedService[];
 };
 
 const unsplash = (photoId: string) =>
@@ -67,8 +70,10 @@ export const projects: readonly Project[] = [
     slug: "private-villa-emirates-hills",
     title: "Private Villa, Emirates Hills",
     location: "Emirates Hills, Dubai",
+    projectType: "Private villa",
     category: "Residential",
     categories: ["Residential", "Flooring", "Furniture"],
+    serviceCategories: ["Flooring", "Furniture"],
     material: "European oak flooring & bespoke joinery",
     completionYear: "2025",
     coverImage: unsplash("1757924461488-ef9ad0670978"),
@@ -127,19 +132,21 @@ export const projects: readonly Project[] = [
       { label: "Finish", value: "Natural matte" },
       { label: "Completed", value: "2025" },
     ],
-    relatedService: {
+    relatedServices: [{
       title: "Engineered Wood Flooring",
       href: "/services#engineered-wood-flooring",
       description:
         "Stable, genuine timber flooring specified around the character and technical needs of each interior.",
-    },
+    }],
   },
   {
     slug: "opus-tower-terrace",
     title: "Opus Tower Terrace",
     location: "Business Bay, Dubai",
+    projectType: "Hospitality terrace",
     category: "Commercial",
     categories: ["Commercial", "Decking", "Outdoor"],
+    serviceCategories: ["Decking", "Outdoor"],
     material: "Ipe timber decking & integrated planters",
     completionYear: "2024",
     coverImage: unsplash("1696846912973-3233cc80bf86"),
@@ -198,19 +205,21 @@ export const projects: readonly Project[] = [
       { label: "Programme", value: "6 weeks" },
       { label: "Completed", value: "2024" },
     ],
-    relatedService: {
+    relatedServices: [{
       title: "Natural Timber Decking",
       href: "/services#natural-timber-decking",
       description:
         "Exterior timber systems detailed for heat, drainage, maintenance access, and a naturally tactile finish.",
-    },
+    }],
   },
   {
     slug: "palm-jumeirah-residence",
     title: "Palm Jumeirah Residence",
     location: "Palm Jumeirah, Dubai",
+    projectType: "Waterfront apartment",
     category: "Residential",
     categories: ["Residential", "Flooring", "Furniture"],
+    serviceCategories: ["Flooring", "Furniture"],
     material: "Chevron oak parquet & custom furniture",
     completionYear: "2025",
     coverImage: unsplash("1512918728675-ed5a9ecdebfd"),
@@ -269,19 +278,21 @@ export const projects: readonly Project[] = [
       { label: "Custom pieces", value: "6" },
       { label: "Completed", value: "2025" },
     ],
-    relatedService: {
+    relatedServices: [{
       title: "Parquet Flooring",
       href: "/services#parquet-flooring",
       description:
         "Precisely set parquet patterns with considered borders, centre lines, transitions, and finish selection.",
-    },
+    }],
   },
   {
     slug: "downtown-executive-office",
     title: "Downtown Executive Office",
     location: "Downtown Dubai",
+    projectType: "Executive workplace",
     category: "Commercial",
     categories: ["Commercial", "Flooring", "Furniture"],
+    serviceCategories: ["Flooring", "Furniture"],
     material: "Smoked oak flooring & executive joinery",
     completionYear: "2024",
     coverImage: unsplash("1497215728101-856f4ea42174"),
@@ -340,19 +351,21 @@ export const projects: readonly Project[] = [
       { label: "Programme", value: "9 weeks" },
       { label: "Completed", value: "2024" },
     ],
-    relatedService: {
+    relatedServices: [{
       title: "Commercial Wood Flooring",
       href: "/services#engineered-wood-flooring",
       description:
         "Timber floors selected and installed for commercial traffic, acoustic comfort, repairability, and brand character.",
-    },
+    }],
   },
   {
     slug: "jumeirah-outdoor-retreat",
     title: "Jumeirah Outdoor Retreat",
     location: "Jumeirah, Dubai",
+    projectType: "Private villa garden",
     category: "Residential",
     categories: ["Residential", "Decking", "Outdoor"],
+    serviceCategories: ["Decking", "Outdoor"],
     material: "WPC decking, pergola & privacy screens",
     completionYear: "2025",
     coverImage: unsplash("1696846911635-83b97e53fb65"),
@@ -411,19 +424,21 @@ export const projects: readonly Project[] = [
       { label: "Programme", value: "5 weeks" },
       { label: "Completed", value: "2025" },
     ],
-    relatedService: {
+    relatedServices: [{
       title: "WPC Decking & Pergolas",
       href: "/services#wpc-decking",
       description:
         "Coordinated low-maintenance decking and shade systems designed around climate, drainage, and daily use.",
-    },
+    }],
   },
   {
     slug: "dubai-marina-penthouse",
     title: "Dubai Marina Penthouse",
     location: "Dubai Marina",
+    projectType: "Penthouse residence",
     category: "Residential",
     categories: ["Residential", "Flooring", "Furniture"],
+    serviceCategories: ["Flooring", "Furniture"],
     material: "Natural oak planks & made-to-measure furniture",
     completionYear: "2023",
     coverImage: unsplash("1497366811353-6870744d04b2"),
@@ -482,12 +497,12 @@ export const projects: readonly Project[] = [
       { label: "Custom pieces", value: "7" },
       { label: "Completed", value: "2023" },
     ],
-    relatedService: {
+    relatedServices: [{
       title: "Engineered Wood & Custom Furniture",
       href: "/services#engineered-wood-flooring",
       description:
         "A coordinated interior package pairing stable natural timber floors with furniture developed around the architecture.",
-    },
+    }],
   },
 ];
 

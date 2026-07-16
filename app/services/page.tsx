@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowRight, MessageCircle } from "lucide-react";
 
 import { ServicesExplorer } from "@/components/services/ServicesExplorer";
+import { siteConfig } from "@/lib/site";
 
 const pageTitle = "Flooring, Decking & Outdoor Services";
 const socialTitle =
@@ -133,22 +134,29 @@ export default function ServicesPage() {
           </div>
           <div className="lg:col-span-4">
             <p className="max-w-md text-pretty text-base leading-7 text-canvas/75">
-              Our team can help narrow materials, compare finishes, and define a
-              practical scope for your property.
+              Share a photo or rough idea for custom furniture, or speak with us
+              about materials and installation for your property.
             </p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+            <div className="mt-7 flex flex-col gap-3">
+              <Link
+                href="/custom-furniture#quick-start"
+                className="inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-bronze px-5 text-sm font-semibold text-white outline-none transition-colors hover:bg-bronze-dark focus-visible:ring-2 focus-visible:ring-canvas focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+              >
+                Custom Furniture Inquiry
+                <ArrowRight aria-hidden="true" className="size-4" />
+              </Link>
               <Link
                 href="/#contact"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-canvas px-5 text-sm font-semibold text-ink outline-none transition-colors hover:bg-bronze hover:text-white focus-visible:ring-2 focus-visible:ring-canvas focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                className="inline-flex min-h-13 items-center justify-center gap-2 rounded-xl bg-canvas px-5 text-sm font-semibold text-ink outline-none transition-colors hover:bg-bronze hover:text-white focus-visible:ring-2 focus-visible:ring-canvas focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
               >
                 Request a consultation
                 <ArrowRight aria-hidden="true" className="size-4" />
               </Link>
               <a
-                href="https://wa.me/971569178686?text=Hello%20Floor%20Nation%2C%20I%27d%20like%20to%20discuss%20a%20flooring%20or%20outdoor%20project."
+                href={`${siteConfig.whatsapp}?text=${encodeURIComponent("Hello Floor Nation, I’d like to discuss a flooring or outdoor project.")}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-canvas/35 px-5 text-sm font-semibold text-canvas outline-none transition-colors hover:border-canvas hover:bg-canvas hover:text-ink focus-visible:ring-2 focus-visible:ring-canvas focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                className="inline-flex min-h-13 items-center justify-center gap-2 rounded-xl border border-canvas/35 px-5 text-sm font-semibold text-canvas outline-none transition-colors hover:border-canvas hover:bg-canvas hover:text-ink focus-visible:ring-2 focus-visible:ring-canvas focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
               >
                 <MessageCircle aria-hidden="true" className="size-4" />
                 Chat on WhatsApp

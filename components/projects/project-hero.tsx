@@ -1,18 +1,19 @@
 "use client";
 
 import { ArrowLeft } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
 import type { Project } from "@/data/projects";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 type ProjectHeroProps = {
   readonly project: Project;
 };
 
 export function ProjectHero({ project }: ProjectHeroProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useHydratedReducedMotion();
 
   return (
     <section className="relative flex min-h-[82svh] items-end overflow-hidden bg-ink text-canvas md:min-h-[88svh]">
@@ -63,7 +64,7 @@ export function ProjectHero({ project }: ProjectHeroProps) {
             <span aria-hidden="true" className="text-bronze">
               / 
             </span>
-            <span>{project.category}</span>
+            <span>{project.projectType}</span>
             <span aria-hidden="true" className="text-bronze">
               / 
             </span>
@@ -80,4 +81,3 @@ export function ProjectHero({ project }: ProjectHeroProps) {
     </section>
   );
 }
-

@@ -3,6 +3,7 @@
 import { ArrowUpRight, Check, RotateCcw } from "lucide-react";
 import { forwardRef } from "react";
 import type { FurnitureBrief } from "./types";
+import { siteConfig } from "@/lib/site";
 
 interface SuccessStateProps {
   reference: string;
@@ -12,20 +13,32 @@ interface SuccessStateProps {
 
 export const SuccessState = forwardRef<HTMLElement, SuccessStateProps>(
   function SuccessState({ reference, brief, onReset }, ref) {
+    const furnitureSummary = brief.furnitureTypes
+      .map((type) =>
+        type === "Other" && brief.furnitureOther
+          ? brief.furnitureOther
+          : type,
+      )
+      .join(", ");
+    const spaceSummary =
+      brief.space === "Other" && brief.spaceOther
+        ? brief.spaceOther
+        : brief.space;
     const whatsappMessage = [
       "Hello Floor Nation,",
       `I completed the custom furniture demo (reference ${reference}).`,
-      `I’m interested in ${brief.furnitureTypes.join(", ")} for a ${brief.space.toLowerCase()}.`,
-      "I’d like to continue the conversation.",
+      `I’m interested in ${furnitureSummary} for ${spaceSummary.toLowerCase()}.`,
+      `My starting design direction is ${brief.direction}.`,
+      "I’d like your team to review the idea and discuss a custom proposal.",
     ].join("\n");
-    const whatsappUrl = `https://wa.me/971569178686?text=${encodeURIComponent(whatsappMessage)}`;
+    const whatsappUrl = `${siteConfig.whatsapp}?text=${encodeURIComponent(whatsappMessage)}`;
 
     return (
       <section
         ref={ref}
         tabIndex={-1}
         aria-labelledby="success-title"
-        className="outline-none"
+        className="scroll-mt-24 outline-none"
       >
         <div className="bg-ink overflow-hidden rounded-xl text-white">
           <div className="px-6 py-9 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
@@ -44,6 +57,12 @@ export const SuccessState = forwardRef<HTMLElement, SuccessStateProps>(
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/72">
               We created a reference for this on-screen demo. No request, files
               or contact details were sent to a backend or stored permanently.
+            </p>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-white/72">
+              In the live service, the Floor Nation team would review your
+              reference, source or create the right furniture, clarify open
+              details, and prepare a custom proposal—never an instant catalogue
+              checkout.
             </p>
 
             <div className="mt-8 max-w-xl border-y border-white/15 py-5">

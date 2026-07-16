@@ -7,8 +7,12 @@ import {
   Building2,
   CircleEllipsis,
   Hotel,
+  ImageUp,
   LampFloor,
+  MessageSquareText,
+  Palette,
   PanelsTopLeft,
+  Ruler,
   Sofa,
   Table2,
   Trees,
@@ -16,19 +20,27 @@ import {
 } from "lucide-react";
 
 export interface IconOption {
-  label: string;
-  description: string;
-  icon: LucideIcon;
+  readonly label: string;
+  readonly description: string;
+  readonly icon: LucideIcon;
 }
 
 export interface DirectionOption {
-  label: string;
-  description: string;
-  image: string;
-  imageAlt: string;
+  readonly label: string;
+  readonly description: string;
+  readonly image: string;
+  readonly imageAlt: string;
 }
 
-export const STEPS = [
+export const furnitureRequestSteps = [
+  { label: "Choose your space", icon: Ruler },
+  { label: "Select a furniture type", icon: Sofa },
+  { label: "Pick an inspiration direction", icon: Palette },
+  { label: "Upload a reference", icon: ImageUp },
+  { label: "Receive a custom proposal", icon: MessageSquareText },
+] as const;
+
+export const furnitureBuilderSteps = [
   { shortLabel: "Space", title: "Choose your space" },
   { shortLabel: "Pieces", title: "Select furniture" },
   { shortLabel: "Direction", title: "Set the direction" },
@@ -37,7 +49,7 @@ export const STEPS = [
   { shortLabel: "Review", title: "Contact and review" },
 ] as const;
 
-export const SPACE_OPTIONS: IconOption[] = [
+export const furnitureSpaces: readonly IconOption[] = [
   {
     label: "Living Room",
     description: "Seating, tables and complete lounge settings",
@@ -75,7 +87,7 @@ export const SPACE_OPTIONS: IconOption[] = [
   },
 ];
 
-export const FURNITURE_OPTIONS: IconOption[] = [
+export const furnitureTypes: readonly IconOption[] = [
   {
     label: "Sofa",
     description: "Sectional, modular or statement seating",
@@ -118,7 +130,7 @@ export const FURNITURE_OPTIONS: IconOption[] = [
   },
 ];
 
-export const DIRECTION_OPTIONS: DirectionOption[] = [
+export const furnitureDirections: readonly DirectionOption[] = [
   {
     label: "Contemporary",
     description: "Clean silhouettes, refined details and balanced comfort.",
@@ -170,7 +182,7 @@ export const DIRECTION_OPTIONS: DirectionOption[] = [
   },
 ];
 
-export const BUDGET_OPTIONS = [
+export const furnitureBudgets = [
   "Under AED 10,000",
   "AED 10,000–25,000",
   "AED 25,000–50,000",

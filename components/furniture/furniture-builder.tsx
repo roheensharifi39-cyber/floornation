@@ -7,21 +7,22 @@ import {
   Clock3,
   ShieldCheck,
 } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   type FormEvent,
   useEffect,
   useRef,
   useState,
 } from "react";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 import { BuilderProgress } from "./builder-progress";
 import { ContactForm } from "./contact-form";
 import {
-  DIRECTION_OPTIONS,
-  FURNITURE_OPTIONS,
-  SPACE_OPTIONS,
-  STEPS,
-} from "./options";
+  furnitureBuilderSteps,
+  furnitureDirections,
+  furnitureSpaces,
+  furnitureTypes,
+} from "@/data/furniture";
 import { ProjectDetailsForm } from "./project-details-form";
 import { ReviewPanel } from "./review-panel";
 import { DirectionGrid, IconSelectionGrid } from "./selection-fields";
@@ -38,27 +39,27 @@ const STEP_COPY = [
   {
     question: "What space are you furnishing?",
     description:
-      "Choose the setting that best describes the project. We’ll use it to frame scale, materials and everyday use.",
+      "Choose the closest setting. Homes, offices, hospitality properties, outdoor spaces and unusual environments are all welcome.",
   },
   {
     question: "What would you like us to create?",
     description:
-      "Select every piece that belongs in the brief. This is a starting point, not a fixed product catalogue.",
+      "Select one or more pieces, a complete room, or describe something else. This is a starting point—not a fixed product catalogue.",
   },
   {
     question: "Which direction feels closest?",
     description:
-      "Choose one visual language to begin. Materials, proportions and finishes will still be tailored to your project.",
+      "These themes are inspiration directions, not products or inventory. Materials, proportions and finishes will be tailored to your request.",
   },
   {
     question: "Tell us what the piece needs to do.",
     description:
-      "Approximate information is useful—our team can help resolve specifications during consultation.",
+      "Add whatever is useful and skip what you do not know. Our team can resolve dimensions, materials and specifications with you.",
   },
   {
     question: "Show us what caught your eye.",
     description:
-      "Inspiration is optional. Add a photograph, sketch, plan or PDF, or continue without a file.",
+      "Upload a photo, screenshot, sketch, mood board, or floor plan. We can use it as the starting point for your custom request.",
   },
   {
     question: "Where should we continue the conversation?",
@@ -70,7 +71,9 @@ const STEP_COPY = [
 function createInitialBrief(): FurnitureBrief {
   return {
     space: "",
+    spaceOther: "",
     furnitureTypes: [],
+    furnitureOther: "",
     direction: "",
     details: {
       dimensions: "",
@@ -88,6 +91,7 @@ function createInitialBrief(): FurnitureBrief {
       phone: "",
       location: "",
       preferredMethod: "",
+      message: "",
     },
   };
 }
@@ -102,7 +106,7 @@ function createReferenceNumber() {
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function FurnitureBuilder() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useHydratedReducedMotion();
   const [currentStep, setCurrentStep] = useState(0);
   const [brief, setBrief] = useState<FurnitureBrief>(createInitialBrief);
   const [uploads, setUploads] = useState<UploadedFile[]>([]);
@@ -168,20 +172,24 @@ export function FurnitureBuilder() {
     if (step === 0 && !brief.space) {
       return "Choose one space to continue.";
     }
+    if (step === 0 && brief.space === "Other" && !brief.spaceOther.trim()) {
+      return "Briefly describe the space so we can frame the request.";
+    }
     if (step === 1 && brief.furnitureTypes.length === 0) {
       return "Select at least one furniture type to continue.";
+    }
+    if (
+      step === 1 &&
+      brief.furnitureTypes.includes("Other") &&
+      !brief.furnitureOther.trim()
+    ) {
+      return "Tell us what other furniture you have in mind.";
     }
     if (step === 2 && !brief.direction) {
       return "Choose one design direction to continue.";
     }
-    if (
-      step === 3 &&
-      (!brief.details.dimensions.trim() ||
-        brief.details.quantity < 1 ||
-        !brief.details.projectKind ||
-        !brief.details.budget)
-    ) {
-      return "Complete the required project details before continuing.";
+    if (step === 3 && brief.details.quantity < 1) {
+      return "Quantity must be at least 1.";
     }
     if (step === 5) {
       const phoneDigits = brief.contact.phone.replace(/\D/g, "");
@@ -219,7 +227,7 @@ export function FurnitureBuilder() {
       showValidationError(error);
       return;
     }
-    if (currentStep < STEPS.length - 1) {
+    if (currentStep < furnitureBuilderSteps.length - 1) {
       goToStep(currentStep + 1);
     }
   };
@@ -259,36 +267,84 @@ export function FurnitureBuilder() {
     switch (currentStep) {
       case 0:
         return (
-          <IconSelectionGrid
-            options={SPACE_OPTIONS}
-            selected={brief.space ? [brief.space] : []}
-            onSelect={(space) => {
-              clearValidation();
-              setBrief((current) => ({ ...current, space }));
-            }}
-          />
+          <div>
+            <IconSelectionGrid
+              options={furnitureSpaces}
+              selected={brief.space ? [brief.space] : []}
+              onSelect={(space) => {
+                clearValidation();
+                setBrief((current) => ({ ...current, space }));
+              }}
+            />
+            {brief.space === "Other" && (
+              <label className="mt-5 block max-w-2xl" htmlFor="other-space">
+                <span className="text-ink text-sm font-semibold">
+                  Describe the space <span className="text-bronze">*</span>
+                </span>
+                <textarea
+                  id="other-space"
+                  rows={3}
+                  value={brief.spaceOther}
+                  onChange={(event) => {
+                    clearValidation();
+                    setBrief((current) => ({
+                      ...current,
+                      spaceOther: event.target.value,
+                    }));
+                  }}
+                  placeholder="For example: a clinic waiting area, rooftop lounge, or home cinema."
+                  className="focus-ring border-line bg-canvas text-ink placeholder:text-muted mt-2 min-h-24 w-full resize-y rounded-lg border px-3.5 py-3 text-base"
+                  aria-invalid={attemptedStep === 0 && !brief.spaceOther.trim()}
+                />
+              </label>
+            )}
+          </div>
         );
       case 1:
         return (
-          <IconSelectionGrid
-            options={FURNITURE_OPTIONS}
-            selected={brief.furnitureTypes}
-            multiple
-            onSelect={(furnitureType) => {
-              clearValidation();
-              setBrief((current) => ({
-                ...current,
-                furnitureTypes: current.furnitureTypes.includes(furnitureType)
-                  ? current.furnitureTypes.filter((item) => item !== furnitureType)
-                  : [...current.furnitureTypes, furnitureType],
-              }));
-            }}
-          />
+          <div>
+            <IconSelectionGrid
+              options={furnitureTypes}
+              selected={brief.furnitureTypes}
+              multiple
+              onSelect={(furnitureType) => {
+                clearValidation();
+                setBrief((current) => ({
+                  ...current,
+                  furnitureTypes: current.furnitureTypes.includes(furnitureType)
+                    ? current.furnitureTypes.filter((item) => item !== furnitureType)
+                    : [...current.furnitureTypes, furnitureType],
+                }));
+              }}
+            />
+            {brief.furnitureTypes.includes("Other") && (
+              <label className="mt-5 block max-w-2xl" htmlFor="other-furniture">
+                <span className="text-ink text-sm font-semibold">
+                  What should we source or create? <span className="text-bronze">*</span>
+                </span>
+                <textarea
+                  id="other-furniture"
+                  rows={3}
+                  value={brief.furnitureOther}
+                  onChange={(event) => {
+                    clearValidation();
+                    setBrief((current) => ({
+                      ...current,
+                      furnitureOther: event.target.value,
+                    }));
+                  }}
+                  placeholder="Describe the piece, full setting, or reference you have in mind."
+                  className="focus-ring border-line bg-canvas text-ink placeholder:text-muted mt-2 min-h-24 w-full resize-y rounded-lg border px-3.5 py-3 text-base"
+                  aria-invalid={attemptedStep === 1 && !brief.furnitureOther.trim()}
+                />
+              </label>
+            )}
+          </div>
         );
       case 2:
         return (
           <DirectionGrid
-            options={DIRECTION_OPTIONS}
+            options={furnitureDirections}
             selected={brief.direction}
             onSelect={(direction) => {
               clearValidation();
@@ -342,6 +398,9 @@ export function FurnitureBuilder() {
             Six focused steps turn an early idea into a useful starting brief.
             Nothing here limits the final design.
           </p>
+          <p className="text-ink mt-4 max-w-2xl text-base font-semibold leading-7">
+            Have only a picture or rough idea? That is enough to get started.
+          </p>
           <div className="text-muted mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">
             <span className="flex items-center gap-2">
               <Clock3 className="text-bronze size-4" aria-hidden="true" />
@@ -369,7 +428,7 @@ export function FurnitureBuilder() {
               <form
                 noValidate
                 onSubmit={handleSubmit}
-                className="border-line bg-canvas overflow-hidden rounded-xl border"
+                className="soft-panel bg-canvas overflow-hidden"
               >
                 <AnimatePresence mode="wait" initial={false} custom={slideDirection}>
                   <motion.div
@@ -394,7 +453,7 @@ export function FurnitureBuilder() {
                   >
                     <div className="mb-7 max-w-3xl">
                       <p className="text-bronze text-sm font-semibold">
-                        {STEPS[currentStep].title}
+                        {furnitureBuilderSteps[currentStep].title}
                       </p>
                       <h2
                         ref={headingRef}
@@ -413,7 +472,7 @@ export function FurnitureBuilder() {
                         ref={errorRef}
                         tabIndex={-1}
                         role="alert"
-                        className="mb-5 rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800 outline-none focus:ring-2 focus:ring-red-700 focus:ring-offset-2"
+                        className="mb-5 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800 outline-none focus:ring-2 focus:ring-red-700 focus:ring-offset-2"
                       >
                         {stepError}
                       </div>
@@ -432,7 +491,7 @@ export function FurnitureBuilder() {
                           "Demo only—your answers remain in this tab, but are not saved for later.",
                         )
                       }
-                      className="focus-ring text-muted hover:text-ink flex min-h-11 items-center gap-2 self-start rounded-lg px-1 text-left text-sm font-semibold transition-colors"
+                      className="focus-ring text-muted hover:text-ink flex min-h-12 items-center gap-2 self-start rounded-xl px-2 text-left text-sm font-semibold transition-colors"
                     >
                       <Bookmark className="size-4 shrink-0" aria-hidden="true" />
                       <span>Save and continue later</span>
@@ -446,15 +505,15 @@ export function FurnitureBuilder() {
                         type="button"
                         onClick={handleBack}
                         disabled={currentStep === 0}
-                        className="focus-ring border-line text-ink hover:border-ink disabled:text-muted inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border px-4 py-3 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-45"
+                        className="focus-ring border-line text-ink hover:border-ink disabled:text-muted inline-flex min-h-13 items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-45"
                       >
                         <ArrowLeft className="size-4" aria-hidden="true" />
                         Back
                       </button>
-                      {currentStep === STEPS.length - 1 ? (
+                      {currentStep === furnitureBuilderSteps.length - 1 ? (
                         <button
                           type="submit"
-                          className="focus-ring bg-ink hover:bg-bronze inline-flex min-h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-lg px-4 py-3 text-center text-sm font-semibold text-white transition-colors sm:flex-none sm:px-5"
+                          className="focus-ring bg-ink hover:bg-bronze inline-flex min-h-13 min-w-0 flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-center text-sm font-semibold text-white transition-colors sm:flex-none sm:px-5"
                         >
                           Request My Custom Proposal
                           <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
@@ -463,7 +522,7 @@ export function FurnitureBuilder() {
                         <button
                           type="button"
                           onClick={handleNext}
-                          className="focus-ring bg-ink hover:bg-bronze inline-flex min-h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold text-white transition-colors sm:flex-none"
+                          className="focus-ring bg-ink hover:bg-bronze inline-flex min-h-13 min-w-0 flex-1 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white transition-colors sm:flex-none"
                         >
                           {currentStep === 4 && uploads.length === 0
                             ? "Continue without upload"

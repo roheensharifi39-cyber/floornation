@@ -11,9 +11,10 @@ import {
   type FormEvent,
   type ReactNode,
 } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Check, MessageCircle, X } from "lucide-react";
 import { siteConfig } from "@/lib/site";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 type ConsultationContextValue = {
   openConsultation: () => void;
@@ -59,7 +60,7 @@ export function ConsultationTrigger({
 }
 
 function ConsultationDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useHydratedReducedMotion();
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const successHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -144,7 +145,7 @@ function ConsultationDrawer({ open, onClose }: { open: boolean; onClose: () => v
             animate={reduceMotion ? { x: 0 } : { x: [24, 0] }}
             exit={{ x: reduceMotion ? 0 : "100%" }}
             transition={{ duration: reduceMotion ? 0 : 0.52, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute right-0 top-0 flex h-full w-full max-w-[38rem] flex-col overflow-y-auto bg-canvas shadow-[-8px_0_8px_oklch(0.2_0.02_45/0.12)]"
+            className="absolute right-0 top-0 flex h-full w-full max-w-[38rem] flex-col overflow-y-auto bg-canvas shadow-[-8px_0_20px_oklch(0.2_0.02_45/0.14)] sm:rounded-l-2xl"
           >
             <div className="flex items-center justify-between border-b border-line px-5 py-5 sm:px-8">
               <p className="font-semibold text-ink">Project consultation</p>
@@ -152,7 +153,7 @@ function ConsultationDrawer({ open, onClose }: { open: boolean; onClose: () => v
                 ref={closeButtonRef}
                 type="button"
                 onClick={handleClose}
-                className="grid size-11 place-items-center border border-line text-ink transition-colors hover:border-ink hover:bg-surface"
+                className="grid size-12 place-items-center rounded-xl border border-line text-ink transition-colors hover:border-ink hover:bg-surface"
                 aria-label="Close consultation form"
               >
                 <X className="size-5" aria-hidden="true" />
@@ -162,7 +163,7 @@ function ConsultationDrawer({ open, onClose }: { open: boolean; onClose: () => v
             <div className="flex flex-1 flex-col px-5 py-10 sm:px-8 sm:py-12">
               {submitted ? (
                 <div className="my-auto" role="status">
-                  <div className="mb-7 grid size-14 place-items-center bg-moss text-white">
+                  <div className="mb-7 grid size-14 place-items-center rounded-2xl bg-moss text-white">
                     <Check className="size-7" aria-hidden="true" />
                   </div>
                   <h2
@@ -180,7 +181,7 @@ function ConsultationDrawer({ open, onClose }: { open: boolean; onClose: () => v
                     href={`${siteConfig.whatsapp}?text=${encodeURIComponent("Hello Floor Nation, I would like to discuss a project consultation.")}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-8 inline-flex min-h-12 items-center gap-3 bg-bronze px-5 py-3 font-bold text-white transition-colors hover:bg-bronze-dark"
+                    className="mt-8 inline-flex min-h-13 items-center gap-3 rounded-xl bg-bronze px-5 py-3 font-bold text-white transition-colors hover:bg-bronze-dark"
                   >
                     <MessageCircle className="size-5" aria-hidden="true" />
                     Continue on WhatsApp
@@ -207,7 +208,7 @@ function ConsultationDrawer({ open, onClose }: { open: boolean; onClose: () => v
                         name="projectType"
                         required
                         defaultValue=""
-                        className="min-h-12 w-full border border-line bg-white px-4 py-3 text-ink focus:border-bronze focus:outline-none"
+                        className="min-h-13 w-full rounded-xl border border-line bg-white px-4 py-3 text-ink focus:border-bronze focus:outline-none"
                       >
                         <option value="" disabled>Select a service</option>
                         <option>Interior flooring</option>
@@ -222,7 +223,7 @@ function ConsultationDrawer({ open, onClose }: { open: boolean; onClose: () => v
                         name="message"
                         rows={4}
                         placeholder="Property type, location, approximate area, material ideas…"
-                        className="w-full resize-y border border-line bg-white px-4 py-3 text-ink placeholder:text-muted focus:border-bronze focus:outline-none"
+                        className="w-full resize-y rounded-xl border border-line bg-white px-4 py-3 text-ink placeholder:text-muted focus:border-bronze focus:outline-none"
                       />
                     </label>
                     <p className="text-sm leading-6 text-muted">
@@ -230,7 +231,7 @@ function ConsultationDrawer({ open, onClose }: { open: boolean; onClose: () => v
                     </p>
                     <button
                       type="submit"
-                      className="link-arrow inline-flex min-h-13 w-full items-center justify-center gap-3 bg-bronze px-6 py-3.5 font-bold text-white transition-colors hover:bg-bronze-dark sm:w-auto"
+                      className="link-arrow inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-xl bg-bronze px-6 py-3.5 font-bold text-white transition-colors hover:bg-bronze-dark sm:w-auto"
                     >
                       Prepare my request
                       <ArrowRight className="size-5" aria-hidden="true" />
@@ -268,7 +269,7 @@ function Field({
         inputMode={type === "tel" ? "tel" : type === "email" ? "email" : undefined}
         autoComplete={autoComplete}
         required={required}
-        className="min-h-12 w-full border border-line bg-white px-4 py-3 text-ink focus:border-bronze focus:outline-none"
+        className="min-h-13 w-full rounded-xl border border-line bg-white px-4 py-3 text-ink focus:border-bronze focus:outline-none"
       />
     </label>
   );

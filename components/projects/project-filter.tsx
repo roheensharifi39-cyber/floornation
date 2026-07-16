@@ -1,11 +1,12 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
 import {
   projectFilters,
   type ProjectFilter as ProjectFilterValue,
 } from "@/data/projects";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 type ProjectFilterProps = {
   readonly activeFilter: ProjectFilterValue;
@@ -16,7 +17,7 @@ export function ProjectFilter({
   activeFilter,
   onFilterChange,
 }: ProjectFilterProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useHydratedReducedMotion();
 
   return (
     <div
@@ -63,4 +64,3 @@ export function ProjectFilter({
     </div>
   );
 }
-

@@ -23,6 +23,7 @@ const ACCEPTED_TYPES = new Set([
   "image/webp",
   "application/pdf",
 ]);
+const ACCEPTED_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "pdf"]);
 
 interface UploadFieldProps {
   uploads: UploadedFile[];
@@ -49,7 +50,8 @@ export function UploadField({ uploads, onChange }: UploadFieldProps) {
     let rejectedReason = "";
 
     for (const file of incoming.slice(0, availableSlots)) {
-      if (!ACCEPTED_TYPES.has(file.type)) {
+      const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
+      if (!ACCEPTED_TYPES.has(file.type) && !ACCEPTED_EXTENSIONS.has(extension)) {
         rejectedReason = "Use JPG, PNG, WebP or PDF files only.";
         continue;
       }
@@ -133,8 +135,9 @@ export function UploadField({ uploads, onChange }: UploadFieldProps) {
           Drop inspiration files here
         </p>
         <p id="upload-help" className="text-muted mx-auto mt-1 max-w-md text-sm leading-6">
-          Add photos, sketches, plans or a PDF. Up to {MAX_FILES} files, 12 MB
-          each.
+          Upload a photo, screenshot, sketch, mood board, or floor plan. We can
+          use it as the starting point for your custom request. JPG, PNG, WebP,
+          or PDF; up to {MAX_FILES} files, 12 MB each.
         </p>
         <input
           ref={inputRef}
@@ -199,7 +202,7 @@ export function UploadField({ uploads, onChange }: UploadFieldProps) {
                 <button
                   type="button"
                   onClick={() => removeFile(upload.id)}
-                  className="focus-ring text-muted hover:bg-canvas hover:text-ink flex size-10 shrink-0 items-center justify-center rounded-lg transition-colors"
+                  className="focus-ring text-muted hover:bg-canvas hover:text-ink flex size-11 shrink-0 items-center justify-center rounded-lg transition-colors"
                   aria-label={`Remove ${upload.file.name}`}
                 >
                   <Trash2 className="size-4" />

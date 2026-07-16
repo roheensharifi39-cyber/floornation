@@ -1,25 +1,33 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-canvas: oklch(0.985 0 0);
-  --color-surface: oklch(0.945 0.011 54);
-  --color-surface-strong: oklch(0.902 0.018 52);
-  --color-ink: oklch(0.205 0.026 45);
-  --color-muted: oklch(0.43 0.019 45);
-  --color-bronze: oklch(0.53 0.145 47.7);
-  --color-bronze-dark: oklch(0.415 0.112 46);
-  --color-bronze-light: oklch(0.76 0.13 56);
+  --color-canvas: oklch(0.978 0.006 60);
+  --color-surface: oklch(0.95 0.012 56);
+  --color-surface-strong: oklch(0.912 0.018 52);
+  --color-ink: oklch(0.235 0.032 42);
+  --color-muted: oklch(0.385 0.022 43);
+  --color-bronze: oklch(0.5 0.105 46);
+  --color-bronze-dark: oklch(0.37 0.07 42);
+  --color-bronze-light: oklch(0.79 0.085 62);
+  --color-logo-cream: oklch(0.925 0.035 70);
   --color-moss: oklch(0.34 0.06 137);
-  --color-line: oklch(0.865 0.014 53);
+  --color-line: oklch(0.875 0.012 54);
   --color-white: oklch(1 0 0);
   --font-display: var(--font-gilda);
   --font-sans: var(--font-manrope);
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.3rem;
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: 1.55rem;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.8rem;
 }
 
 :root {
-  --header-height: 5rem;
-  --shadow-close: 0 4px 8px oklch(0.205 0.026 45 / 0.08);
+  --header-height: 5.5rem;
+  --shadow-close: 0 4px 8px oklch(0.235 0.032 42 / 0.08);
+  --shadow-soft: 0 6px 8px oklch(0.235 0.032 42 / 0.1);
 }
 
 * {
@@ -29,17 +37,17 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);
-  background: oklch(0.985 0 0);
+  background: oklch(0.978 0.006 60);
 }
 
 body {
   margin: 0;
   overflow-x: clip;
-  background: oklch(0.985 0 0);
-  color: oklch(0.205 0.026 45);
+  background: oklch(0.978 0.006 60);
+  color: oklch(0.235 0.032 42);
   font-family: var(--font-manrope), sans-serif;
-  font-size: 1rem;
-  line-height: 1.65;
+  font-size: 1.0625rem;
+  line-height: 1.7;
   text-rendering: optimizeLegibility;
 }
 
@@ -95,7 +103,12 @@ p {
 }
 
 .section-space {
-  padding-block: clamp(5rem, 10vw, 9rem);
+  padding-block: clamp(5.5rem, 10vw, 9.5rem);
+}
+
+.soft-panel {
+  border-radius: 1rem;
+  box-shadow: var(--shadow-soft);
 }
 
 .display-title {

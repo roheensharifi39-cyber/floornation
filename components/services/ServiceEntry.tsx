@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight, Check, Mail, PackageOpen } from "lucide-react";
 
 import type { Service } from "@/data/services";
+import { siteConfig } from "@/lib/site";
 
 type ServiceEntryProps = {
   service: Service;
@@ -18,7 +19,7 @@ function buildMailto(service: Service, intent: "samples" | "quote") {
     ? `Hello Floor Nation,\n\nI would like to review samples for ${service.title}. Please contact me to discuss the available finishes and my project requirements.\n\nName:\nPhone / WhatsApp:\nProject location:\n`
     : `Hello Floor Nation,\n\nI would like to request a quote for ${service.title}.\n\nName:\nPhone / WhatsApp:\nProject location:\nApproximate area or dimensions:\nTarget completion date:\n`;
 
-  return `mailto:info@floornation.ae?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return `mailto:${siteConfig.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 export function ServiceEntry({ service, index }: ServiceEntryProps) {

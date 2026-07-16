@@ -4,20 +4,20 @@ import {
   AnimatePresence,
   LayoutGroup,
   motion,
-  useReducedMotion,
 } from "framer-motion";
 import { useMemo, useState } from "react";
 
 import { ProjectCard } from "@/components/projects/project-card";
 import { ProjectFilter } from "@/components/projects/project-filter";
 import type { Project, ProjectFilter as ProjectFilterValue } from "@/data/projects";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 type ProjectCollectionProps = {
   readonly projects: readonly Project[];
 };
 
 export function ProjectCollection({ projects }: ProjectCollectionProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useHydratedReducedMotion();
   const [activeFilter, setActiveFilter] =
     useState<ProjectFilterValue>("All");
 

@@ -3,6 +3,7 @@ import { Gilda_Display, Manrope } from "next/font/google";
 import { ConsultationProvider } from "@/components/layout/ConsultationDrawer";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { MobileFurnitureCTA } from "@/components/layout/MobileFurnitureCTA";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -77,7 +78,7 @@ const structuredData = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${gilda.variable} ${manrope.variable}`}>
-      <body className="bg-canvas text-ink antialiased">
+      <body className="bg-canvas pb-20 text-ink antialiased lg:pb-0">
         <a
           href="#main-content"
           className="fixed left-3 top-3 z-[60] -translate-y-24 bg-white px-4 py-2 font-semibold text-ink transition-transform focus:translate-y-0"
@@ -88,6 +89,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <SiteHeader />
           {children}
           <SiteFooter />
+          <MobileFurnitureCTA />
         </ConsultationProvider>
         <script
           type="application/ld+json"

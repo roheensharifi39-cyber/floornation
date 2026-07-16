@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { BUDGET_OPTIONS } from "./options";
+import { furnitureBudgets } from "@/data/furniture";
 import type { ProjectDetails, ProjectKind } from "./types";
 
 interface ProjectDetailsFormProps {
@@ -11,7 +11,7 @@ interface ProjectDetailsFormProps {
 }
 
 const inputClass =
-  "focus-ring border-line bg-canvas text-ink placeholder:text-muted mt-2 min-h-12 w-full rounded-lg border px-3.5 py-3 text-base transition-colors hover:border-bronze/70 disabled:cursor-not-allowed disabled:opacity-60";
+  "focus-ring border-line bg-canvas text-ink placeholder:text-muted mt-2 min-h-13 w-full rounded-xl border px-4 py-3.5 text-base transition-colors hover:border-bronze/70 disabled:cursor-not-allowed disabled:opacity-60";
 
 function FieldLabel({
   htmlFor,
@@ -43,15 +43,16 @@ export function ProjectDetailsForm({
   onChange,
   showErrors,
 }: ProjectDetailsFormProps) {
-  const dimensionsInvalid = showErrors && !value.dimensions.trim();
   const quantityInvalid = showErrors && (!value.quantity || value.quantity < 1);
-  const kindInvalid = showErrors && !value.projectKind;
-  const budgetInvalid = showErrors && !value.budget;
 
   return (
     <div className="grid grid-cols-1 gap-x-5 gap-y-6 sm:grid-cols-2">
+      <p className="text-muted border-line bg-surface rounded-lg border p-4 text-sm leading-6 sm:col-span-2">
+        Have only a picture or rough idea? That is enough to get started. Every
+        field below is optional apart from quantity, which defaults to one.
+      </p>
       <div>
-        <FieldLabel htmlFor="dimensions" required>
+        <FieldLabel htmlFor="dimensions">
           Approximate dimensions
         </FieldLabel>
         <input
@@ -62,14 +63,10 @@ export function ProjectDetailsForm({
           onChange={(event) => onChange({ dimensions: event.target.value })}
           placeholder="e.g. 240 × 95 × 75 cm"
           className={inputClass}
-          aria-invalid={dimensionsInvalid}
-          aria-describedby={dimensionsInvalid ? "dimensions-error" : undefined}
         />
-        {dimensionsInvalid && (
-          <FieldError id="dimensions-error">
-            Add approximate dimensions or the available space.
-          </FieldError>
-        )}
+        <p className="text-muted mt-1.5 text-xs leading-5">
+          Exact measurements can be confirmed during consultation.
+        </p>
       </div>
 
       <div>
@@ -124,7 +121,7 @@ export function ProjectDetailsForm({
 
       <fieldset className="sm:col-span-2">
         <legend className="text-ink text-sm font-semibold">
-          Project setting <span className="text-bronze">*</span>
+          Residential or commercial use <span className="text-muted font-normal">(optional)</span>
         </legend>
         <div className="mt-2 grid grid-cols-2 gap-2" role="group">
           {(["Residential", "Commercial"] as ProjectKind[]).map((kind) => (
@@ -133,7 +130,7 @@ export function ProjectDetailsForm({
               type="button"
               aria-pressed={value.projectKind === kind}
               onClick={() => onChange({ projectKind: kind })}
-              className={`focus-ring min-h-12 rounded-lg border px-3 py-2.5 text-sm font-semibold transition-colors ${
+              className={`focus-ring min-h-13 rounded-xl border px-3 py-2.5 text-sm font-semibold transition-colors ${
                 value.projectKind === kind
                   ? "border-ink bg-ink text-white"
                   : "border-line bg-canvas text-ink hover:border-bronze"
@@ -143,15 +140,10 @@ export function ProjectDetailsForm({
             </button>
           ))}
         </div>
-        {kindInvalid && (
-          <FieldError id="project-kind-error">
-            Choose residential or commercial.
-          </FieldError>
-        )}
       </fieldset>
 
       <div>
-        <FieldLabel htmlFor="budget" required>
+        <FieldLabel htmlFor="budget">
           Estimated budget
         </FieldLabel>
         <div className="relative">
@@ -161,11 +153,9 @@ export function ProjectDetailsForm({
             value={value.budget}
             onChange={(event) => onChange({ budget: event.target.value })}
             className={`${inputClass} appearance-none pr-10`}
-            aria-invalid={budgetInvalid}
-            aria-describedby={budgetInvalid ? "budget-error" : undefined}
           >
-            <option value="">Select a range</option>
-            {BUDGET_OPTIONS.map((budget) => (
+            <option value="">Prefer not to say yet</option>
+            {furnitureBudgets.map((budget) => (
               <option key={budget} value={budget}>
                 {budget}
               </option>
@@ -176,9 +166,6 @@ export function ProjectDetailsForm({
             aria-hidden="true"
           />
         </div>
-        {budgetInvalid && (
-          <FieldError id="budget-error">Choose a budget range.</FieldError>
-        )}
       </div>
 
       <div>

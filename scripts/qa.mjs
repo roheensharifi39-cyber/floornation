@@ -12,13 +12,16 @@ const routes = [
   { path: "/", name: "home" },
   { path: "/services", name: "services" },
   { path: "/projects", name: "projects" },
-  {
-    path: "/projects/private-villa-emirates-hills",
-    name: "project-emirates-hills",
-  },
+  { path: "/projects/private-villa-emirates-hills", name: "project-emirates-hills" },
+  { path: "/projects/opus-tower-terrace", name: "project-opus-tower" },
+  { path: "/projects/palm-jumeirah-residence", name: "project-palm" },
+  { path: "/projects/downtown-executive-office", name: "project-office" },
+  { path: "/projects/jumeirah-outdoor-retreat", name: "project-outdoor" },
+  { path: "/projects/dubai-marina-penthouse", name: "project-marina" },
   { path: "/custom-furniture", name: "custom-furniture" },
   { path: "/privacy", name: "privacy" },
   { path: "/terms", name: "terms" },
+  { path: "/missing-page", name: "not-found", expectedStatus: 404 },
 ];
 
 await mkdir(artifactDir, { recursive: true });
@@ -44,7 +47,14 @@ async function auditRoute(route, viewport, label) {
   const badResponses = [];
 
   page.on("console", (message) => {
-    if (message.type() === "error") consoleErrors.push(message.text());
+    const expectedNotFound = (route.expectedStatus ?? 200) === 404;
+    const isExpectedDocument404 =
+      expectedNotFound &&
+      message.text().includes("Failed to load resource") &&
+      message.text().includes("404");
+    if (message.type() === "error" && !isExpectedDocument404) {
+      consoleErrors.push(message.text());
+    }
   });
   page.on("pageerror", (error) => pageErrors.push(error.message));
   page.on("requestfailed", (request) => {
@@ -54,7 +64,11 @@ async function auditRoute(route, viewport, label) {
     }
   });
   page.on("response", (response) => {
-    if (response.status() >= 400) {
+    const expectedStatus = route.expectedStatus ?? 200;
+    const isExpectedRouteResponse =
+      response.url() === `${baseUrl}${route.path}` &&
+      response.status() === expectedStatus;
+    if (response.status() >= 400 && !isExpectedRouteResponse) {
       badResponses.push(`${response.status()} ${response.url()}`);
     }
   });
@@ -81,9 +95,18 @@ async function auditRoute(route, viewport, label) {
     brokenImages: [...document.images]
       .filter((image) => image.complete && image.naturalWidth === 0)
       .map((image) => image.currentSrc || image.src),
+    imagesWithoutAlt: [...document.images]
+      .filter((image) => !image.hasAttribute("alt"))
+      .map((image) => image.currentSrc || image.src),
     emptyLinks: [...document.querySelectorAll("a")]
       .filter((link) => !link.getAttribute("href"))
       .map((link) => link.textContent?.trim() ?? ""),
+    brokenAnchors: [...document.querySelectorAll('a[href^="#"]')]
+      .filter((link) => {
+        const href = link.getAttribute("href");
+        return href && href !== "#" && !document.querySelector(href);
+      })
+      .map((link) => link.getAttribute("href")),
     mainCount: document.querySelectorAll("main").length,
   }));
 
@@ -95,6 +118,7 @@ async function auditRoute(route, viewport, label) {
   const result = {
     route: route.path,
     viewport: label,
+    expectedStatus: route.expectedStatus ?? 200,
     status: response?.status() ?? null,
     ...dom,
     horizontalOverflow:
@@ -118,6 +142,18 @@ try {
   for (const route of routes) {
     await auditRoute(route, { width: 390, height: 844 }, "mobile");
   }
+
+  const homeRoute = routes.find((route) => route.path === "/");
+  if (homeRoute) {
+    await auditRoute(homeRoute, { width: 375, height: 812 }, "mobile-375");
+    await auditRoute(homeRoute, { width: 430, height: 932 }, "mobile-430");
+  }
+
+  const furnitureRoute = routes.find((route) => route.path === "/custom-furniture");
+  if (furnitureRoute) {
+    await auditRoute(furnitureRoute, { width: 375, height: 812 }, "mobile-375");
+    await auditRoute(furnitureRoute, { width: 430, height: 932 }, "mobile-430");
+  }
 } finally {
   await browser.close();
 }
@@ -130,12 +166,14 @@ await writeFile(
 
 const failures = results.filter(
   (result) =>
-    result.status !== 200 ||
+    result.status !== result.expectedStatus ||
     result.h1Count !== 1 ||
     result.mainCount !== 1 ||
     result.horizontalOverflow ||
     result.brokenImages.length > 0 ||
+    result.imagesWithoutAlt.length > 0 ||
     result.emptyLinks.length > 0 ||
+    result.brokenAnchors.length > 0 ||
     result.consoleErrors.length > 0 ||
     result.pageErrors.length > 0 ||
     result.failedRequests.length > 0 ||

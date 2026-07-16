@@ -8,6 +8,7 @@ import { ProjectGallery } from "@/components/projects/project-gallery";
 import { ProjectHero } from "@/components/projects/project-hero";
 import { ProjectNavigation } from "@/components/projects/project-navigation";
 import { getProjectBySlug, projects } from "@/data/projects";
+import { siteConfig } from "@/lib/site";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
@@ -61,7 +62,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   const previousProject =
     projects[(projectIndex - 1 + projects.length) % projects.length];
   const nextProject = projects[(projectIndex + 1) % projects.length];
-  const whatsappHref = `https://wa.me/971569178686?text=${encodeURIComponent(
+  const whatsappHref = `${siteConfig.whatsapp}?text=${encodeURIComponent(
     `Hello Floor Nation, I would like to discuss a project similar to ${project.title}.`,
   )}`;
 
@@ -168,27 +169,43 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
       </section>
 
       <section className="bg-surface px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-        <div className="mx-auto grid max-w-[90rem] grid-cols-1 gap-9 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-7">
+        <div className="mx-auto grid max-w-[90rem] grid-cols-1 gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-4">
             <h2 className="font-display text-[clamp(2.5rem,5vw,4.6rem)] leading-none tracking-[-0.03em] text-ink">
-              {project.relatedService.title}
+              Related services
             </h2>
-            <p className="mt-6 max-w-2xl text-base leading-7 text-muted">
-              {project.relatedService.description}
+            <p className="mt-5 max-w-sm text-sm leading-6 text-muted">
+              Explore the capabilities connected to this project’s material and
+              delivery approach.
             </p>
           </div>
-          <div className="lg:col-span-4 lg:col-start-9 lg:flex lg:justify-end">
-            <Link
-              className="group inline-flex min-h-12 items-center gap-3 border-b border-ink py-3 text-sm font-semibold text-ink transition-colors hover:border-bronze hover:text-bronze focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze"
-              href={project.relatedService.href}
-            >
-              Explore the service
-              <ArrowRight
-                aria-hidden="true"
-                className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1"
-                strokeWidth={1.7}
-              />
-            </Link>
+          <div className="border-t border-line lg:col-span-7 lg:col-start-6">
+            {project.relatedServices.map((service) => (
+              <article
+                key={service.href}
+                className="grid gap-5 border-b border-line py-7 sm:grid-cols-[1fr_auto] sm:items-end"
+              >
+                <div>
+                  <h3 className="font-display text-3xl leading-tight text-ink sm:text-4xl">
+                    {service.title}
+                  </h3>
+                  <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
+                    {service.description}
+                  </p>
+                </div>
+                <Link
+                  className="group inline-flex min-h-12 items-center gap-3 border-b border-ink py-3 text-sm font-semibold text-ink transition-colors hover:border-bronze hover:text-bronze focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze"
+                  href={service.href}
+                >
+                  Explore service
+                  <ArrowRight
+                    aria-hidden="true"
+                    className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1"
+                    strokeWidth={1.7}
+                  />
+                </Link>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -205,14 +222,21 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:col-span-4 lg:flex-col lg:items-stretch">
+            <Link
+              className="inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-bronze px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-bronze-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze"
+              href="/custom-furniture#quick-start"
+            >
+              Custom Furniture Inquiry
+              <ArrowRight aria-hidden="true" className="size-4" />
+            </Link>
             <ConsultationTrigger
-              className="inline-flex min-h-13 items-center justify-center gap-3 bg-ink px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-bronze focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze"
+              className="inline-flex min-h-13 items-center justify-center gap-3 rounded-xl bg-ink px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-bronze focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze"
             >
               Request something similar
               <ArrowRight aria-hidden="true" className="size-4" />
             </ConsultationTrigger>
             <a
-              className="inline-flex min-h-13 items-center justify-center gap-3 border border-line px-6 py-3 text-sm font-semibold text-ink transition-colors hover:border-bronze hover:text-bronze focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze"
+              className="inline-flex min-h-13 items-center justify-center gap-3 rounded-xl border border-line px-6 py-3 text-sm font-semibold text-ink transition-colors hover:border-bronze hover:text-bronze focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze"
               href={whatsappHref}
               rel="noreferrer"
               target="_blank"

@@ -10,7 +10,7 @@ interface ContactFormProps {
 }
 
 const inputClass =
-  "focus-ring border-line bg-canvas text-ink placeholder:text-muted mt-2 min-h-12 w-full rounded-lg border px-3.5 py-3 text-base transition-colors hover:border-bronze/70";
+  "focus-ring border-line bg-canvas text-ink placeholder:text-muted mt-2 min-h-13 w-full rounded-xl border px-4 py-3.5 text-base transition-colors hover:border-bronze/70";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -150,7 +150,7 @@ export function ContactForm({ value, onChange, showErrors }: ContactFormProps) {
                 type="button"
                 aria-pressed={selected}
                 onClick={() => onChange({ preferredMethod: method.value })}
-                className={`focus-ring flex min-h-12 items-center justify-center gap-2 rounded-lg border px-3 py-2.5 text-sm font-semibold transition-colors ${
+                className={`focus-ring flex min-h-13 items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-semibold transition-colors ${
                   selected
                     ? "border-ink bg-ink text-white"
                     : "border-line bg-canvas text-ink hover:border-bronze"
@@ -168,6 +168,21 @@ export function ContactForm({ value, onChange, showErrors }: ContactFormProps) {
           </ErrorMessage>
         )}
       </fieldset>
+
+      <label htmlFor="contact-message" className="mt-6 block">
+        <span className="text-ink text-sm font-semibold">
+          Additional message <span className="text-muted font-normal">(optional)</span>
+        </span>
+        <textarea
+          id="contact-message"
+          name="message"
+          rows={4}
+          value={value.message}
+          onChange={(event) => onChange({ message: event.target.value })}
+          placeholder="Add access notes, decision-makers, questions, or anything else the team should know."
+          className={`${inputClass} min-h-28 resize-y`}
+        />
+      </label>
 
       <p className="text-muted mt-6 text-xs leading-5">
         This demo does not transmit your contact details. In a live version,

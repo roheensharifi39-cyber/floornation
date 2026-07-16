@@ -19,11 +19,14 @@ export interface ContactDetails {
   phone: string;
   location: string;
   preferredMethod: ContactMethod;
+  message: string;
 }
 
 export interface FurnitureBrief {
   space: string;
+  spaceOther: string;
   furnitureTypes: string[];
+  furnitureOther: string;
   direction: string;
   details: ProjectDetails;
   contact: ContactDetails;

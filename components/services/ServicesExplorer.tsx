@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import {
   serviceCategories,
   services,
   type ServiceCategory,
 } from "@/data/services";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 import { ServiceEntry } from "./ServiceEntry";
 
@@ -23,7 +24,7 @@ const filterOptions: readonly { value: ServiceFilter; label: string }[] = [
 
 export function ServicesExplorer() {
   const [activeFilter, setActiveFilter] = useState<ServiceFilter>("All");
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useHydratedReducedMotion();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);

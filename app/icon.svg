@@ -1,5 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#261c17"/>
-  <path d="M15 14h35v9H25v8h20v9H25v12H15V14Z" fill="#fffdf9"/>
-  <path d="M42 43h9v9h-9z" fill="#c7782b"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <clipPath id="shield">
+      <polygon points="184,108 870,108 870,666 527,870 184,666" />
+    </clipPath>
+  </defs>
+  <image
+    href="/brand/floor-nation-logo.png"
+    width="1024"
+    height="1024"
+    preserveAspectRatio="xMidYMid slice"
+    clip-path="url(#shield)"
+  />
 </svg>

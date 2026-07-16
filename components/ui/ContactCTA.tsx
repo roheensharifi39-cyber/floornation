@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import Link from "next/link";
 import { ConsultationTrigger } from "@/components/layout/ConsultationDrawer";
 import { siteConfig } from "@/lib/site";
 
@@ -15,15 +16,21 @@ export function ContactCTA() {
           <p className="mt-6 max-w-2xl text-base leading-7 text-white/94 sm:text-lg sm:leading-8">
             Speak with our team about flooring, decking, outdoor structures, or custom furniture.
           </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <ConsultationTrigger className="link-arrow inline-flex min-h-13 items-center justify-center gap-3 bg-ink px-6 py-3.5 font-bold text-white transition-colors hover:bg-moss focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+          <div className="mt-9 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <Link
+              href="/custom-furniture#quick-start"
+              className="link-arrow inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-white px-6 py-3.5 font-bold text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            >
+              Custom Furniture Inquiry <ArrowRight className="size-5" />
+            </Link>
+            <ConsultationTrigger className="link-arrow inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-ink px-6 py-3.5 font-bold text-white transition-colors hover:bg-moss focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
               Request a Consultation <ArrowRight className="size-5" />
             </ConsultationTrigger>
             <a
               href={siteConfig.whatsapp}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex min-h-13 items-center justify-center gap-3 border border-white/55 px-6 py-3.5 font-bold text-white transition-colors hover:border-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              className="inline-flex min-h-14 items-center justify-center gap-3 rounded-xl border border-white/55 px-6 py-3.5 font-bold text-white transition-colors hover:border-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
               <MessageCircle className="size-5" /> Chat on WhatsApp
             </a>
@@ -34,8 +41,8 @@ export function ContactCTA() {
           <div className="flex gap-3">
             <Phone className="mt-0.5 size-4 shrink-0 text-white" aria-hidden="true" />
             <div className="space-y-1">
-              <a href="tel:+971569178686" className="block hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">{siteConfig.phoneMobile}</a>
-              <a href="tel:+97142387786" className="block hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">{siteConfig.phoneOffice}</a>
+              <a href={siteConfig.phoneMobileHref} className="block hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">{siteConfig.phoneMobile}</a>
+              <a href={siteConfig.phoneOfficeHref} className="block hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">{siteConfig.phoneOffice}</a>
             </div>
           </div>
           <a href={`mailto:${siteConfig.email}`} className="flex gap-3 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">

@@ -24,7 +24,7 @@ function ReviewSection({ title, step, onEdit, children }: ReviewSectionProps) {
         <button
           type="button"
           onClick={() => onEdit(step)}
-          className="focus-ring text-muted hover:text-ink flex min-h-9 items-center gap-1.5 rounded-md px-2 text-xs font-semibold transition-colors"
+          className="focus-ring text-muted hover:text-ink flex min-h-11 items-center gap-1.5 rounded-md px-2 text-xs font-semibold transition-colors"
           aria-label={`Edit ${title.toLowerCase()}`}
         >
           <Pencil className="size-3" />
@@ -38,10 +38,10 @@ function ReviewSection({ title, step, onEdit, children }: ReviewSectionProps) {
 
 export function ReviewPanel({ brief, uploads, onEdit }: ReviewPanelProps) {
   const detailRows = [
-    ["Dimensions", brief.details.dimensions],
+    ["Dimensions", brief.details.dimensions || "To be confirmed"],
     ["Quantity", String(brief.details.quantity)],
-    ["Project", brief.details.projectKind],
-    ["Budget", brief.details.budget],
+    ["Use", brief.details.projectKind || "To be discussed"],
+    ["Budget", brief.details.budget || "To be discussed"],
     ["Materials", brief.details.materials || "Open to recommendations"],
     ["Colors", brief.details.colors || "Open to recommendations"],
     ["Target date", brief.details.completionDate || "To be discussed"],
@@ -52,17 +52,28 @@ export function ReviewPanel({ brief, uploads, onEdit }: ReviewPanelProps) {
       <div className="border-line mb-4 border-b pb-4">
         <h2 className="text-ink text-base font-semibold">Your project brief</h2>
         <p className="text-muted mt-1 text-sm">
-          Review the direction before creating your demo request.
+          Review the starting point for a custom-sourced or custom-created
+          proposal—not a fixed-product order.
         </p>
       </div>
 
       <ReviewSection title="Space" step={0} onEdit={onEdit}>
-        <p className="text-ink font-medium">{brief.space}</p>
+        <p className="text-ink font-medium">
+          {brief.space === "Other" && brief.spaceOther
+            ? `Other — ${brief.spaceOther}`
+            : brief.space}
+        </p>
       </ReviewSection>
 
       <ReviewSection title="Furniture" step={1} onEdit={onEdit}>
         <p className="text-ink font-medium">
-          {brief.furnitureTypes.join(", ")}
+          {brief.furnitureTypes
+            .map((type) =>
+              type === "Other" && brief.furnitureOther
+                ? `Other — ${brief.furnitureOther}`
+                : type,
+            )
+            .join(", ")}
         </p>
       </ReviewSection>
 
@@ -102,6 +113,38 @@ export function ReviewPanel({ brief, uploads, onEdit }: ReviewPanelProps) {
           <p>No files added</p>
         )}
       </ReviewSection>
+
+      <ReviewSection title="Contact" step={5} onEdit={onEdit}>
+        <dl className="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
+          {[
+            ["Name", brief.contact.fullName],
+            ["Phone / WhatsApp", brief.contact.phone],
+            ["Email", brief.contact.email],
+            ["Location", brief.contact.location],
+            ["Preferred contact", brief.contact.preferredMethod],
+          ].map(([label, value]) => (
+            <div key={label}>
+              <dt className="text-muted text-xs">{label}</dt>
+              <dd className="text-ink mt-0.5 break-words font-medium">
+                {value || "Not provided yet"}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        {brief.contact.message && (
+          <div className="mt-3">
+            <p className="text-muted text-xs">Additional message</p>
+            <p className="text-ink mt-0.5 whitespace-pre-wrap font-medium">
+              {brief.contact.message}
+            </p>
+          </div>
+        )}
+      </ReviewSection>
+
+      <p className="border-line text-muted mt-5 border-t pt-4 text-xs leading-5">
+        In production, Floor Nation would review this request, clarify any open
+        details, and prepare a custom proposal before anything is ordered or made.
+      </p>
     </div>
   );
 }

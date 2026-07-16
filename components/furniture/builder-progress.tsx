@@ -1,28 +1,29 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
-import { STEPS } from "./options";
+import { motion } from "framer-motion";
+import { furnitureBuilderSteps } from "@/data/furniture";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 interface BuilderProgressProps {
   currentStep: number;
 }
 
 export function BuilderProgress({ currentStep }: BuilderProgressProps) {
-  const reduceMotion = useReducedMotion();
-  const progress = ((currentStep + 1) / STEPS.length) * 100;
+  const reduceMotion = useHydratedReducedMotion();
+  const progress = ((currentStep + 1) / furnitureBuilderSteps.length) * 100;
 
   return (
     <aside
       aria-label="Custom request progress"
-      className="border-line bg-surface border-b px-5 py-5 sm:px-7 lg:sticky lg:top-28 lg:self-start lg:rounded-xl lg:border"
+      className="border-line bg-surface border-b px-5 py-5 sm:px-7 lg:sticky lg:top-30 lg:self-start lg:rounded-2xl lg:border"
     >
       <div className="flex items-baseline justify-between gap-4">
         <p className="text-ink text-sm font-semibold">
-          Step {currentStep + 1} of {STEPS.length}
+          Step {currentStep + 1} of {furnitureBuilderSteps.length}
         </p>
         <p className="text-muted truncate text-sm">
-          {STEPS[currentStep].shortLabel}
+          {furnitureBuilderSteps[currentStep].shortLabel}
         </p>
       </div>
 
@@ -30,9 +31,9 @@ export function BuilderProgress({ currentStep }: BuilderProgressProps) {
         className="bg-line mt-3 h-1 overflow-hidden rounded-full"
         role="progressbar"
         aria-valuemin={1}
-        aria-valuemax={STEPS.length}
+        aria-valuemax={furnitureBuilderSteps.length}
         aria-valuenow={currentStep + 1}
-        aria-label={`${STEPS[currentStep].shortLabel}, step ${currentStep + 1} of ${STEPS.length}`}
+        aria-label={`${furnitureBuilderSteps[currentStep].shortLabel}, step ${currentStep + 1} of ${furnitureBuilderSteps.length}`}
       >
         <motion.div
           className="bg-bronze h-full origin-left rounded-full"
@@ -46,7 +47,7 @@ export function BuilderProgress({ currentStep }: BuilderProgressProps) {
       </div>
 
       <ol className="mt-6 hidden space-y-1 lg:block">
-        {STEPS.map((step, index) => {
+        {furnitureBuilderSteps.map((step, index) => {
           const isCurrent = index === currentStep;
           const isComplete = index < currentStep;
 
