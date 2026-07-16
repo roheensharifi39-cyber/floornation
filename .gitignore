@@ -1,0 +1,22 @@
+# dependencies
+/node_modules
+
+# Next.js
+/.next
+/out
+
+# local tooling and test output
+/qa-artifacts
+/.impeccable
+
+# environment files
+.env*
+!.env.example
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.log
+
+# TypeScript
+*.tsbuildinfo

@@ -1,0 +1,35 @@
+{
+  "name": "floor-nation",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "qa": "node scripts/qa.mjs",
+    "qa:interactions": "node scripts/interaction-qa.mjs"
+  },
+  "dependencies": {
+    "framer-motion": "^12.23.12",
+    "lucide-react": "^0.536.0",
+    "next": "^15.4.5",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "@types/node": "^22.17.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "eslint": "^9.32.0",
+    "eslint-config-next": "^15.4.5",
+    "playwright-core": "^1.61.1",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.9.2"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
+  }
+}
