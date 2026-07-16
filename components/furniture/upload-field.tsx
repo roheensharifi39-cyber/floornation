@@ -215,7 +215,7 @@ export function UploadField({ uploads, onChange }: UploadFieldProps) {
 
       <div
         id="upload-demo-note"
-        className="border-line mt-5 flex gap-3 rounded-lg border bg-white/60 p-4"
+        className="border-line mt-5 flex gap-3 rounded-lg border bg-surface p-4"
       >
         <Info className="text-bronze mt-0.5 size-4 shrink-0" />
         <p className="text-muted text-sm leading-5">

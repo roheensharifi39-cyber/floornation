@@ -34,11 +34,12 @@ const browser = await chromium.launch({
 
 const results = [];
 
-async function auditRoute(route, viewport, label) {
+async function auditRoute(route, viewport, label, colorScheme = "light") {
   const context = await browser.newContext({
     viewport,
     deviceScaleFactor: 1,
     reducedMotion: "reduce",
+    colorScheme,
   });
   const page = await context.newPage();
   const consoleErrors = [];
@@ -153,6 +154,13 @@ try {
   if (furnitureRoute) {
     await auditRoute(furnitureRoute, { width: 375, height: 812 }, "mobile-375");
     await auditRoute(furnitureRoute, { width: 430, height: 932 }, "mobile-430");
+  }
+
+  const servicesRoute = routes.find((route) => route.path === "/services");
+  for (const darkRoute of [homeRoute, servicesRoute, furnitureRoute]) {
+    if (darkRoute) {
+      await auditRoute(darkRoute, { width: 390, height: 844 }, "dark-mobile", "dark");
+    }
   }
 } finally {
   await browser.close();

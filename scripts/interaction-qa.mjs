@@ -49,6 +49,48 @@ await check("mobile navigation traps and restores focus", async () => {
   await context.close();
 });
 
+await check("theme toggle switches modes and persists the choice", async () => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    colorScheme: "light",
+  });
+  const page = await context.newPage();
+  await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+  const toggle = page.getByRole("button", { name: "Toggle light and dark color theme" });
+  await toggle.click();
+  if ((await page.locator("html").getAttribute("data-theme")) !== "dark") {
+    throw new Error("Theme toggle did not activate dark mode.");
+  }
+  await page.reload({ waitUntil: "networkidle" });
+  if ((await page.locator("html").getAttribute("data-theme")) !== "dark") {
+    throw new Error("Dark theme did not persist after reload.");
+  }
+  await toggle.click();
+  if ((await page.locator("html").getAttribute("data-theme")) !== "light") {
+    throw new Error("Theme toggle did not return to light mode.");
+  }
+  await context.close();
+});
+
+await check("hero exposes direct WhatsApp and Instagram actions", async () => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+  const hero = page.locator("main section").first();
+  const whatsapp = hero.getByRole("link", { name: "WhatsApp" });
+  const instagram = hero.getByRole("link", { name: "Instagram" });
+  if (!(await whatsapp.getAttribute("href"))?.startsWith("https://wa.me/971569178686")) {
+    throw new Error("Hero WhatsApp action is not connected to Floor Nation.");
+  }
+  if (
+    (await instagram.getAttribute("href")) !==
+    "https://www.instagram.com/floornation.ae?igsh=dnRmbWdvajZxamtu"
+  ) {
+    throw new Error("Hero Instagram action does not use the supplied profile URL.");
+  }
+  await context.close();
+});
+
 await check("custom furniture inquiry reaches the builder in two taps", async () => {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const page = await context.newPage();

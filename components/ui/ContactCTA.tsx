@@ -19,7 +19,7 @@ export function ContactCTA() {
           <div className="mt-9 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             <Link
               href="/custom-furniture#quick-start"
-              className="link-arrow inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-white px-6 py-3.5 font-bold text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              className="link-arrow inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-canvas px-6 py-3.5 font-bold text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
               Custom Furniture Inquiry <ArrowRight className="size-5" />
             </Link>

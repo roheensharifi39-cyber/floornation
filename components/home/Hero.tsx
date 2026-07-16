@@ -3,8 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowDown, ArrowRight, ImageUp, MapPin } from "lucide-react";
+import { ArrowDown, ArrowRight, ImageUp, Instagram, MapPin, MessageCircle } from "lucide-react";
 import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
+import { siteConfig } from "@/lib/site";
 
 export function Hero() {
   const reduceMotion = useHydratedReducedMotion();
@@ -81,6 +82,31 @@ export function Hero() {
               Explore Flooring &amp; Decking
               <ArrowRight className="size-5" aria-hidden="true" />
             </Link>
+          </motion.div>
+          <motion.div
+            initial={false}
+            animate={reduceMotion ? undefined : { opacity: [0.94, 1], y: [8, 0] }}
+            transition={{ duration: 0.75, delay: 0.68, ease }}
+            className="mt-3 grid grid-cols-2 gap-3 sm:flex"
+          >
+            <a
+              href={`${siteConfig.whatsapp}?text=${encodeURIComponent("Hello Floor Nation, I would like to discuss a project.")}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/35 px-4 text-sm font-bold text-white transition-colors hover:border-white hover:bg-white/10"
+            >
+              <MessageCircle className="size-5" aria-hidden="true" />
+              WhatsApp
+            </a>
+            <a
+              href={siteConfig.instagram}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/35 px-4 text-sm font-bold text-white transition-colors hover:border-white hover:bg-white/10"
+            >
+              <Instagram className="size-5" aria-hidden="true" />
+              Instagram
+            </a>
           </motion.div>
         </div>
 

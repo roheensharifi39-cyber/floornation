@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, MessageCircle, X } from "lucide-react";
 import { useConsultation } from "@/components/layout/ConsultationDrawer";
 import { Logo } from "@/components/ui/Logo";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { primaryNavigation, siteConfig } from "@/lib/site";
 import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
@@ -121,7 +122,7 @@ export function SiteHeader() {
             target="_blank"
             rel="noreferrer"
             aria-label="Chat with Floor Nation on WhatsApp"
-            className={`grid size-12 place-items-center rounded-xl border transition-colors ${
+            className={`hidden size-12 place-items-center rounded-xl border transition-colors sm:grid ${
               transparent
                 ? "border-white/35 text-white hover:border-white hover:bg-white/10"
                 : "border-line text-ink hover:border-ink hover:bg-surface"
@@ -129,6 +130,13 @@ export function SiteHeader() {
           >
             <MessageCircle className="size-5" aria-hidden="true" />
           </a>
+          <ThemeToggle
+            className={
+              transparent
+                ? "border-white/35 text-white hover:border-white hover:bg-white/10"
+                : "border-line text-ink hover:border-ink hover:bg-surface"
+            }
+          />
           <Link
             href="/custom-furniture#quick-start"
             className="hidden min-h-12 items-center rounded-xl bg-bronze px-4 text-sm font-bold text-white shadow-[0_4px_8px_oklch(0.235_0.032_42/0.12)] transition-colors hover:bg-bronze-dark sm:inline-flex xl:px-5"

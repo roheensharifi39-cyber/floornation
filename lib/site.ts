@@ -9,6 +9,7 @@ export const siteConfig = {
   phoneOfficeHref: "tel:+97142387786",
   email: "info@floornation.ae",
   whatsapp: "https://wa.me/971569178686",
+  instagram: "https://www.instagram.com/floornation.ae?igsh=dnRmbWdvajZxamtu",
   address: [
     "Al Nokhita Building, 6th Floor, Office 619",
     "Al Khaleej Road, Al Hamriya",

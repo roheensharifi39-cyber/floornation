@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-canvas: oklch(0.978 0.006 60);
-  --color-surface: oklch(0.95 0.012 56);
-  --color-surface-strong: oklch(0.912 0.018 52);
-  --color-ink: oklch(0.235 0.032 42);
-  --color-muted: oklch(0.385 0.022 43);
-  --color-bronze: oklch(0.5 0.105 46);
-  --color-bronze-dark: oklch(0.37 0.07 42);
-  --color-bronze-light: oklch(0.79 0.085 62);
+  --color-canvas: var(--theme-canvas);
+  --color-surface: var(--theme-surface);
+  --color-surface-strong: var(--theme-surface-strong);
+  --color-ink: var(--theme-ink);
+  --color-muted: var(--theme-muted);
+  --color-bronze: var(--theme-bronze);
+  --color-bronze-dark: var(--theme-bronze-dark);
+  --color-bronze-light: var(--theme-bronze-light);
   --color-logo-cream: oklch(0.925 0.035 70);
-  --color-moss: oklch(0.34 0.06 137);
-  --color-line: oklch(0.875 0.012 54);
+  --color-moss: var(--theme-moss);
+  --color-line: var(--theme-line);
   --color-white: oklch(1 0 0);
   --font-display: var(--font-gilda);
   --font-sans: var(--font-manrope);
@@ -25,9 +25,38 @@
 }
 
 :root {
+  color-scheme: light;
+  --theme-canvas: oklch(0.978 0.006 60);
+  --theme-surface: oklch(0.95 0.012 56);
+  --theme-surface-strong: oklch(0.912 0.018 52);
+  --theme-ink: oklch(0.235 0.032 42);
+  --theme-copy: oklch(0.235 0.032 42);
+  --theme-inverse: oklch(0.978 0.006 60);
+  --theme-muted: oklch(0.385 0.022 43);
+  --theme-bronze: oklch(0.5 0.105 46);
+  --theme-bronze-dark: oklch(0.37 0.07 42);
+  --theme-bronze-light: oklch(0.79 0.085 62);
+  --theme-moss: oklch(0.34 0.06 137);
+  --theme-line: oklch(0.875 0.012 54);
   --header-height: 5.5rem;
   --shadow-close: 0 4px 8px oklch(0.235 0.032 42 / 0.08);
   --shadow-soft: 0 6px 8px oklch(0.235 0.032 42 / 0.1);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --theme-canvas: oklch(0.17 0.018 42);
+  --theme-surface: oklch(0.215 0.022 43);
+  --theme-surface-strong: oklch(0.265 0.026 44);
+  --theme-copy: oklch(0.94 0.012 68);
+  --theme-muted: oklch(0.75 0.018 62);
+  --theme-bronze: oklch(0.66 0.115 50);
+  --theme-bronze-dark: oklch(0.58 0.1 48);
+  --theme-bronze-light: oklch(0.82 0.085 65);
+  --theme-moss: oklch(0.55 0.07 137);
+  --theme-line: oklch(0.34 0.025 45);
+  --shadow-close: 0 4px 8px oklch(0.05 0.01 42 / 0.28);
+  --shadow-soft: 0 6px 8px oklch(0.05 0.01 42 / 0.32);
 }
 
 * {
@@ -37,18 +66,64 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);
-  background: oklch(0.978 0.006 60);
+  background: var(--theme-canvas);
 }
 
 body {
   margin: 0;
   overflow-x: clip;
-  background: oklch(0.978 0.006 60);
-  color: oklch(0.235 0.032 42);
+  background: var(--theme-canvas);
+  color: var(--theme-copy);
   font-family: var(--font-manrope), sans-serif;
   font-size: 1.0625rem;
   line-height: 1.7;
   text-rendering: optimizeLegibility;
+}
+
+html[data-theme="dark"] .text-ink,
+html[data-theme="dark"] .hover\:text-ink:hover {
+  color: var(--theme-copy);
+}
+
+html[data-theme="dark"] .text-canvas {
+  color: var(--theme-inverse);
+}
+
+html[data-theme="dark"] .text-canvas\/65 {
+  color: color-mix(in oklab, var(--theme-inverse) 65%, transparent);
+}
+
+html[data-theme="dark"] .text-canvas\/70 {
+  color: color-mix(in oklab, var(--theme-inverse) 70%, transparent);
+}
+
+html[data-theme="dark"] .text-canvas\/75 {
+  color: color-mix(in oklab, var(--theme-inverse) 75%, transparent);
+}
+
+html[data-theme="dark"] .text-canvas\/80 {
+  color: color-mix(in oklab, var(--theme-inverse) 80%, transparent);
+}
+
+html[data-theme="dark"] .text-canvas\/85 {
+  color: color-mix(in oklab, var(--theme-inverse) 85%, transparent);
+}
+
+html[data-theme="dark"] .border-canvas\/25 {
+  border-color: color-mix(in oklab, var(--theme-inverse) 25%, transparent);
+}
+
+html[data-theme="dark"] .border-canvas\/35,
+html[data-theme="dark"] .hover\:border-canvas:hover {
+  border-color: color-mix(in oklab, var(--theme-inverse) 35%, transparent);
+}
+
+html[data-theme="dark"] .theme-icon-moon {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-icon-sun {
+  display: block;
 }
 
 body[data-menu-open="true"],

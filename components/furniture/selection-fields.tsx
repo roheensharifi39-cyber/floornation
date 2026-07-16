@@ -62,7 +62,7 @@ export function IconSelectionGrid({
             </span>
             {isSelected && (
               <span
-                className="absolute right-3.5 top-3.5 flex size-6 items-center justify-center rounded-full bg-white text-ink"
+                className="absolute right-3.5 top-3.5 flex size-6 items-center justify-center rounded-full bg-logo-cream text-[oklch(0.235_0.032_42)]"
                 aria-hidden="true"
               >
                 <Check className="size-3.5" strokeWidth={2.5} />

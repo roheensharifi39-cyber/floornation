@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MessageCircle } from "lucide-react";
+import { Instagram, MessageCircle } from "lucide-react";
 import { primaryNavigation, siteConfig } from "@/lib/site";
 
 const footerServices = [
@@ -36,6 +36,9 @@ export function SiteFooter() {
           <div className="mt-5 flex gap-3">
             <SocialLink href={siteConfig.whatsapp} label="Chat with Floor Nation on WhatsApp">
               <MessageCircle className="size-4" />
+            </SocialLink>
+            <SocialLink href={siteConfig.instagram} label="Follow Floor Nation on Instagram">
+              <Instagram className="size-4" />
             </SocialLink>
           </div>
         </div>

@@ -208,7 +208,7 @@ function ConsultationDrawer({ open, onClose }: { open: boolean; onClose: () => v
                         name="projectType"
                         required
                         defaultValue=""
-                        className="min-h-13 w-full rounded-xl border border-line bg-white px-4 py-3 text-ink focus:border-bronze focus:outline-none"
+                        className="min-h-13 w-full rounded-xl border border-line bg-surface px-4 py-3 text-ink focus:border-bronze focus:outline-none"
                       >
                         <option value="" disabled>Select a service</option>
                         <option>Interior flooring</option>
@@ -223,7 +223,7 @@ function ConsultationDrawer({ open, onClose }: { open: boolean; onClose: () => v
                         name="message"
                         rows={4}
                         placeholder="Property type, location, approximate area, material ideas…"
-                        className="w-full resize-y rounded-xl border border-line bg-white px-4 py-3 text-ink placeholder:text-muted focus:border-bronze focus:outline-none"
+                        className="w-full resize-y rounded-xl border border-line bg-surface px-4 py-3 text-ink placeholder:text-muted focus:border-bronze focus:outline-none"
                       />
                     </label>
                     <p className="text-sm leading-6 text-muted">
@@ -269,7 +269,7 @@ function Field({
         inputMode={type === "tel" ? "tel" : type === "email" ? "email" : undefined}
         autoComplete={autoComplete}
         required={required}
-        className="min-h-13 w-full rounded-xl border border-line bg-white px-4 py-3 text-ink focus:border-bronze focus:outline-none"
+        className="min-h-13 w-full rounded-xl border border-line bg-surface px-4 py-3 text-ink focus:border-bronze focus:outline-none"
       />
     </label>
   );

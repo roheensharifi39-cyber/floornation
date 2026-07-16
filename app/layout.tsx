@@ -53,7 +53,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#261c17",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#faf7f3" },
+    { media: "(prefers-color-scheme: dark)", color: "#211916" },
+  ],
 };
 
 const structuredData = {
@@ -73,15 +76,23 @@ const structuredData = {
     postOfficeBoxNumber: "63049",
   },
   areaServed: { "@type": "Country", name: "United Arab Emirates" },
+  sameAs: [siteConfig.instagram],
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${gilda.variable} ${manrope.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${gilda.variable} ${manrope.variable}`}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var saved=localStorage.getItem('floor-nation-theme');var theme=saved==='light'||saved==='dark'?saved:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;}catch(e){document.documentElement.dataset.theme='light';}})();`,
+          }}
+        />
+      </head>
       <body className="bg-canvas pb-20 text-ink antialiased lg:pb-0">
         <a
           href="#main-content"
-          className="fixed left-3 top-3 z-[60] -translate-y-24 bg-white px-4 py-2 font-semibold text-ink transition-transform focus:translate-y-0"
+          className="fixed left-3 top-3 z-[60] -translate-y-24 rounded-lg bg-canvas px-4 py-2 font-semibold text-ink shadow-[var(--shadow-close)] transition-transform focus:translate-y-0"
         >
           Skip to content
         </a>

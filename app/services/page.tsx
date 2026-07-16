@@ -147,7 +147,7 @@ export default function ServicesPage() {
               </Link>
               <Link
                 href="/#contact"
-                className="inline-flex min-h-13 items-center justify-center gap-2 rounded-xl bg-canvas px-5 text-sm font-semibold text-ink outline-none transition-colors hover:bg-bronze hover:text-white focus-visible:ring-2 focus-visible:ring-canvas focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                className="inline-flex min-h-13 items-center justify-center gap-2 rounded-xl bg-logo-cream px-5 text-sm font-semibold text-[oklch(0.235_0.032_42)] outline-none transition-colors hover:bg-bronze hover:text-white focus-visible:ring-2 focus-visible:ring-canvas focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
               >
                 Request a consultation
                 <ArrowRight aria-hidden="true" className="size-4" />
